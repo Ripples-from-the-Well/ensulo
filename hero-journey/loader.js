@@ -55,6 +55,9 @@
       hero.insertBefore(vis, hero.firstChild);
       hero.insertAdjacentHTML('beforeend', CHROME);
       hero.classList.add('hero', 'globe-hero', 'journey-hero', 'jr-busy');
+      // a fixed or sticky site nav covers part of the first screen: take its height off the hero so the controls stay in view
+      var nav = document.querySelector('.w-nav'), np = nav ? getComputedStyle(nav).position : '';
+      if (nav && (np === 'fixed' || np === 'sticky') && hero.getBoundingClientRect().top + window.scrollY < nav.offsetHeight + 40) hero.style.setProperty('--nav-h', nav.offsetHeight + 'px');
 
       return script(base + 'kit.js').then(function () { return script(base + 'journey.js'); });
     }).catch(function (e) {
